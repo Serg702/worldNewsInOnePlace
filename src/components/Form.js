@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import { css } from "emotion";
 
 const divStyles = css``;
@@ -11,7 +12,6 @@ const containerStyle = css`
   width: 70%;
   margin: 0 auto;
   text-align: center;
-
   label: from;
 `;
 
@@ -40,35 +40,40 @@ const buttonStyles = css`
 `;
 class Form extends Component {
   state = {
-    news: "",
-    error: null,
-    isLoading: false
+    inputVal: ""
+  };
+  handleSubmit = e => {
+    e.preventDefault();
+    if (this.state.inputVal) {
+      this.props.fetchData(this.state.inputVal);
+    } else {
+      alert("Input field is empty !");
+    }
+    this.setState({ ...this.state, inputVal: "" });
   };
 
-  handleSubmit = () => {};
+  handleChange = e => {
+    this.setState({ ...this.state, inputVal: e.target.value });
+  };
 
   render() {
-    const { isLoading, error } = this.state;
-
-    if (error) {
-      return <p>{error}</p>;
-    }
+    const { inputVal } = this.state;
 
     return (
       <div className={divStyles}>
-        {isLoading ? (
-          <p>Loading ...</p>
-        ) : (
-          <form className={containerStyle} onSubmit={this.handleSubmit}>
-            <textarea
-              rows="10"
-              cols="50"
-              className={textStyles}
-              placeholder="Type a word to search for"
-            />
-            <button className={buttonStyles}>Submit</button>
-          </form>
-        )}
+        <form className={containerStyle} onSubmit={this.handleSubmit}>
+          <textarea
+            rows="10"
+            cols="50"
+            className={textStyles}
+            placeholder="Type a word to search for"
+            value={inputVal}
+            onChange={this.handleChange}
+          />
+          <button type="submit" className={buttonStyles}>
+            Submit
+          </button>
+        </form>
       </div>
     );
   }
