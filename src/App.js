@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Form from "./components/Form";
+import NewsArticle from "./components/NewsArticle";
 import { url, apiKey } from "./constants";
 
 class App extends Component {
@@ -39,10 +40,19 @@ class App extends Component {
       .catch(error => this.setState({ ...this.state, error: error }));
   };
   render() {
-    const { isLoading, inputVal, error } = this.state;
+    const { isLoading, news, error } = this.state;
+
+    if (error) {
+      return <h1>{error}</h1>;
+    }
+
+    if (news) {
+      return <NewsArticle value={news} />;
+    }
+
     return (
       <div>
-        <Form fetchData={this.fetchData} />
+        {isLoading ? <h1>Loading ...</h1> : <Form fetchData={this.fetchData} />}
       </div>
     );
   }

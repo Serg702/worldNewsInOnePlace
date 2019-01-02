@@ -66,7 +66,7 @@ class Form extends Component {
             rows="10"
             cols="50"
             className={textStyles}
-            placeholder="Type a word to search for"
+            placeholder="Type a phrase to search for"
             value={inputVal}
             onChange={this.handleChange}
           />
